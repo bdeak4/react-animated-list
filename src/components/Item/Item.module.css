@@ -1,0 +1,10 @@
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 400px;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: black;
+  color: white;
+}
