@@ -21,6 +21,17 @@ const List = () => {
     setItems((prev) => [...prev, { id: uuid(), text: "Appended item" }]);
   };
 
+  const insertItem = (id: string) => {
+    setItems((prev) => {
+      const index = prev.findIndex((item) => item.id === id);
+      return [
+        ...prev.slice(0, index + 1),
+        { id: uuid(), text: "Added below" },
+        ...prev.slice(index + 1),
+      ];
+    });
+  };
+
   const reset = () => {
     setItems(initialItemsState());
   };
@@ -38,16 +49,7 @@ const List = () => {
           <Item
             item={item}
             key={item.id}
-            handleAddBelow={(id) => {
-              setItems((prev) => {
-                const index = prev.findIndex((item) => item.id === id);
-                return [
-                  ...prev.slice(0, index + 1),
-                  { id: uuid(), text: "Added below" },
-                  ...prev.slice(index + 1),
-                ];
-              });
-            }}
+            handleInsert={insertItem}
             handleRemove={(id) =>
               setItems((prev) => prev.filter((item) => item.id !== id))
             }

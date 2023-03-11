@@ -1,8 +1,4 @@
-* {
-  box-sizing: border-box;
-}
-
-@keyframes fadeIn {
+@keyframes animateIn {
   0% {
     opacity: 0;
     max-height: 0;
@@ -13,7 +9,7 @@
   }
 }
 
-@keyframes fadeOut {
+@keyframes animateOut {
   0% {
     opacity: 1;
     max-height: 48px;
@@ -22,4 +18,13 @@
     opacity: 0;
     max-height: 0;
   }
+}
+
+.item {
+  animation: animateIn 0.5s ease-out;
+  overflow: hidden;
+}
+
+.item.unmount {
+  animation: animateOut 0.5s ease-out;
 }

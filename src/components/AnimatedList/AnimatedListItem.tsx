@@ -1,13 +1,13 @@
 import { ReactNode, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
-import "./Fade.css";
+import classes from "./index.module.css";
 
 interface Props {
-  show: boolean;
   children: ReactNode;
+  show: boolean;
 }
 
-const Fade = ({ show, children }: Props) => {
+const AnimatedListItem = ({ children, show }: Props) => {
   const [render, setRender] = useState(show);
 
   useEffect(() => {
@@ -30,10 +30,7 @@ const Fade = ({ show, children }: Props) => {
 
   return (
     <div
-      style={{
-        animation: `${show ? "fadeIn" : "fadeOut"} 0.5s ease-out`,
-        overflow: "hidden",
-      }}
+      className={`${classes.item} ${!show && classes.unmount}`}
       onAnimationEnd={onAnimationEnd}
     >
       {children}
@@ -41,4 +38,4 @@ const Fade = ({ show, children }: Props) => {
   );
 };
 
-export default Fade;
+export default AnimatedListItem;

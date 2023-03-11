@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
-import Fade from "../Fade/Fade";
+import AnimatedListItem from "./AnimatedListItem";
 
 interface Props {
   items: ReactElement[];
@@ -40,9 +40,9 @@ const AnimatedList = ({ items }: Props) => {
   return (
     <div>
       {animatedItems.map(({ node, unmounted }) => (
-        <Fade show={!unmounted} key={node.key}>
+        <AnimatedListItem show={!unmounted} key={node.key}>
           {node}
-        </Fade>
+        </AnimatedListItem>
       ))}
 
       <style
