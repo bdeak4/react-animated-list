@@ -1,4 +1,14 @@
-@keyframes animateIn {
+* {
+  box-sizing: border-box;
+}
+
+.listButtons {
+  margin-bottom: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+@keyframes fadeIn {
   0% {
     opacity: 0;
     max-height: 0;
@@ -9,7 +19,7 @@
   }
 }
 
-@keyframes animateOut {
+@keyframes fadeOut {
   0% {
     opacity: 1;
     max-height: 48px;
@@ -20,11 +30,6 @@
   }
 }
 
-.item {
-  animation: animateIn 0.5s ease-out;
+.animatedListItem {
   overflow: hidden;
-}
-
-.item.unmount {
-  animation: animateOut 0.5s ease-out;
 }

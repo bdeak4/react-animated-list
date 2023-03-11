@@ -10,7 +10,7 @@
   border-radius: 4px;
 }
 
-.buttons {
+.itemButtons {
   display: flex;
   gap: 8px;
 }

@@ -3,13 +3,15 @@ import AnimatedListItem from "./AnimatedListItem";
 
 interface Props {
   items: ReactElement[];
+  mountAnimation: string;
+  unmountAnimation: string;
 }
 
 const toAnimatedItems = (items: ReactElement[]) => {
   return items.map((node) => ({ node, unmounted: false }));
 };
 
-const AnimatedList = ({ items }: Props) => {
+const AnimatedList = ({ items, mountAnimation, unmountAnimation }: Props) => {
   const [animatedItems, setAnimatedItems] = useState(toAnimatedItems(items));
 
   useEffect(() => {
@@ -38,44 +40,17 @@ const AnimatedList = ({ items }: Props) => {
   }, [items]);
 
   return (
-    <div>
+    <div className="animatedList">
       {animatedItems.map(({ node, unmounted }) => (
-        <AnimatedListItem show={!unmounted} key={node.key}>
+        <AnimatedListItem
+          show={!unmounted}
+          mountAnimation={mountAnimation}
+          unmountAnimation={unmountAnimation}
+          key={node.key}
+        >
           {node}
         </AnimatedListItem>
       ))}
-
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-          @keyframes yellowbg {
-            0% {
-              background-color: yellow;
-            }
-            100% {
-              background-color: white;
-            }
-          }
-    `,
-        }}
-      ></style>
-      <table>
-        <tbody>
-          {animatedItems.map(({ node, unmounted }) => (
-            <tr
-              style={{
-                backgroundColor: unmounted ? "#f0f" : "white",
-                animation: "yellowbg 3s",
-              }}
-              key={node.key}
-            >
-              <td>{node.key}</td>
-              <td>{node.props.item.text}</td>
-              <td>{unmounted ? "unmounted" : "mounted"}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 };

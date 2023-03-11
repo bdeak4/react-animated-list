@@ -1,5 +1,5 @@
 import { ListItem } from "../../types/item";
-import classes from "./Item.module.css";
+import "./Item.css";
 
 interface Props {
   item: ListItem;
@@ -9,10 +9,10 @@ interface Props {
 
 const Item = ({ item, handleInsert, handleRemove }: Props) => {
   return (
-    <div className={classes.item}>
+    <div className="item">
       {item.text}
 
-      <div className={classes.buttons}>
+      <div className="itemButtons">
         <button onClick={() => handleInsert(item.id)}>Insert</button>
         <button onClick={() => handleRemove(item.id)}>Remove</button>
       </div>

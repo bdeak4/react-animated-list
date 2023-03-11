@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AnimatedList from "../AnimatedList";
 import Item from "../Item";
-import classes from "./List.module.css";
+import "./List.css";
 import { v4 as uuid } from "uuid";
 
 const initialItemsState = () => [
@@ -21,24 +21,28 @@ const List = () => {
     setItems((prev) => [...prev, { id: uuid(), text: "Appended item" }]);
   };
 
+  const reset = () => {
+    setItems(initialItemsState());
+  };
+
   const insertItem = (id: string) => {
     setItems((prev) => {
       const index = prev.findIndex((item) => item.id === id);
       return [
         ...prev.slice(0, index + 1),
-        { id: uuid(), text: "Added below" },
+        { id: uuid(), text: "Inserted item" },
         ...prev.slice(index + 1),
       ];
     });
   };
 
-  const reset = () => {
-    setItems(initialItemsState());
+  const removeItem = (id: string) => {
+    setItems((prev) => prev.filter((item) => item.id !== id));
   };
 
   return (
     <div>
-      <div className={classes.buttons}>
+      <div className="listButtons">
         <button onClick={appendItem}>Prepend</button>
         <button onClick={prependItem}>Append</button>
         <button onClick={reset}>Reset</button>
@@ -50,11 +54,11 @@ const List = () => {
             item={item}
             key={item.id}
             handleInsert={insertItem}
-            handleRemove={(id) =>
-              setItems((prev) => prev.filter((item) => item.id !== id))
-            }
+            handleRemove={removeItem}
           />
         ))}
+        mountAnimation="fadeIn 0.5s ease-out"
+        unmountAnimation="fadeOut 0.5s ease-out"
       />
     </div>
   );

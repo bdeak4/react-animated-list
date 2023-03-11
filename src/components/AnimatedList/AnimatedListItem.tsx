@@ -1,13 +1,19 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
-import classes from "./index.module.css";
 
 interface Props {
-  children: ReactNode;
+  children: ReactElement | null;
   show: boolean;
+  mountAnimation: string;
+  unmountAnimation: string;
 }
 
-const AnimatedListItem = ({ children, show }: Props) => {
+const AnimatedListItem = ({
+  children,
+  show,
+  mountAnimation,
+  unmountAnimation,
+}: Props) => {
   const [render, setRender] = useState(show);
 
   useEffect(() => {
@@ -30,8 +36,9 @@ const AnimatedListItem = ({ children, show }: Props) => {
 
   return (
     <div
-      className={`${classes.item} ${!show && classes.unmount}`}
+      style={{ animation: show ? mountAnimation : unmountAnimation }}
       onAnimationEnd={onAnimationEnd}
+      className="animatedListItem"
     >
       {children}
     </div>
