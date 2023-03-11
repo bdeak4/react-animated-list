@@ -3,14 +3,18 @@ import classes from "./Item.module.css";
 
 interface Props {
   item: ListItem;
-  handleRemove: (id: number) => void;
+  handleAddBelow: (id: string) => void;
+  handleRemove: (id: string) => void;
 }
 
-const Item = ({ item, handleRemove }: Props) => {
+const Item = ({ item, handleAddBelow, handleRemove }: Props) => {
   return (
     <div className={classes.item}>
       {item.text}
-      <button onClick={() => handleRemove(item.id)}>Remove</button>
+      <div className={classes.buttons}>
+        <button onClick={() => handleAddBelow(item.id)}>Insert</button>
+        <button onClick={() => handleRemove(item.id)}>Remove</button>
+      </div>
     </div>
   );
 };

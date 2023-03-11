@@ -1,78 +1,59 @@
 import { useState } from "react";
 import AnimatedList from "../AnimatedList";
-import Fade from "../Fade/Fade";
 import Item from "../Item";
+import classes from "./List.module.css";
+import { v4 as uuid } from "uuid";
 
-const initialItemsState = [
-  {
-    id: 1,
-    text: "Item 1",
-    hidden: false,
-  },
-  {
-    id: 2,
-    text: "Item 2",
-    hidden: false,
-  },
-  {
-    id: 3,
-    text: "Item 3",
-    hidden: false,
-  },
+const initialItemsState = () => [
+  { id: uuid(), text: "Item 1" },
+  { id: uuid(), text: "Item 2" },
+  { id: uuid(), text: "Item 3" },
 ];
 
 const List = () => {
-  const [items, setItems] = useState(initialItemsState);
-  const [show, setShow] = useState(true);
+  const [items, setItems] = useState(initialItemsState());
+
+  const appendItem = () => {
+    setItems((prev) => [{ id: uuid(), text: "Prepended item" }, ...prev]);
+  };
+
+  const prependItem = () => {
+    setItems((prev) => [...prev, { id: uuid(), text: "Appended item" }]);
+  };
+
+  const reset = () => {
+    setItems(initialItemsState());
+  };
 
   return (
     <div>
-      <button
-        onClick={() =>
-          setItems((prev) => [
-            {
-              id: Math.min(...prev.map((i) => i.id)) - 1,
-              text: "Prepended item",
-              hidden: false,
-            },
-            ...prev,
-          ])
-        }
-      >
-        Prepend
-      </button>
+      <div className={classes.buttons}>
+        <button onClick={appendItem}>Prepend</button>
+        <button onClick={prependItem}>Append</button>
+        <button onClick={reset}>Reset</button>
+      </div>
 
       <AnimatedList
-        list={items.map((item) => (
+        items={items.map((item) => (
           <Item
             item={item}
             key={item.id}
+            handleAddBelow={(id) => {
+              setItems((prev) => {
+                const index = prev.findIndex((item) => item.id === id);
+                return [
+                  ...prev.slice(0, index + 1),
+                  { id: uuid(), text: "Added below" },
+                  ...prev.slice(index + 1),
+                ];
+              });
+            }}
             handleRemove={(id) =>
-              // setItems((prev) => prev.filter((item) => item.id !== id))
-              setItems((prev) =>
-                prev.map((item) =>
-                  item.id === id ? { ...item, hidden: true } : item
-                )
-              )
+              setItems((prev) => prev.filter((item) => item.id !== id))
             }
           />
         ))}
       />
-
-      <button
-        onClick={() =>
-          setItems((prev) => [
-            ...prev,
-            {
-              id: Math.max(...prev.map((i) => i.id)) + 1,
-              text: "Appended item",
-              hidden: false,
-            },
-          ])
-        }
-      >
-        Append
-      </button>
     </div>
   );
 };

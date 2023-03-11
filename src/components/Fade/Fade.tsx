@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useLayoutEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import "./Fade.css";
 
@@ -24,7 +24,11 @@ const Fade = ({ show, children }: Props) => {
     }
   };
 
-  return render ? (
+  if (!render) {
+    return null;
+  }
+
+  return (
     <div
       style={{
         animation: `${show ? "fadeIn" : "fadeOut"} 0.5s ease-out`,
@@ -34,7 +38,7 @@ const Fade = ({ show, children }: Props) => {
     >
       {children}
     </div>
-  ) : null;
+  );
 };
 
 export default Fade;
